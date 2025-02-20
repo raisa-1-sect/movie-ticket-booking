@@ -31,10 +31,11 @@ export default function Booking() {
     debounce(async (query, pageNum) => {
       if (!hasMore || loading) return; 
       setLoading(true); 
-
+//nice
       try {
         const response = await axios.get(
-          `http://www.omdbapi.com/?s=${query}&plot=full&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&page=${pageNum}`
+          // `http://www.omdbapi.com/?s=${query}&plot=full&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&page=${pageNum}`
+          `https://www.omdbapi.com/?s=${query}&plot=full&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&page=${pageNum}`
         );
 
         if (response.data.Search) {
