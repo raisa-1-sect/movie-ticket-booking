@@ -34,7 +34,7 @@ export default function Booking() {
 
       try {
         const response = await axios.get(
-          `http://www.omdbapi.com/?s=${query}&apikey=bf356452&page=${pageNum}`
+          `http://www.omdbapi.com/?s=${query}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&page=${pageNum}`
         );
 
         if (response.data.Search) {
