@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { debounce } from "lodash";
@@ -16,9 +15,8 @@ export default function Booking() {
     Poster: string;
     Year: string;
   };
-  
+
   const [movies, setMovies] = useState<Movie[]>([]);
-  
   const [searchTerm, setSearchTerm] = useState("movie");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -28,21 +26,21 @@ export default function Booking() {
 
   // Fetch movies (debounced)
   const fetchMovies = useCallback(
-    debounce(async (query, pageNum) => {
-      if (!hasMore || loading) return; 
-      setLoading(true); 
-//nice
+    debounce(async (query: string, pageNum: number) => {
+      if (!hasMore || loading) return;
+      setLoading(true);
+
       try {
-        const response = await axios.get(
-          // `http://www.omdbapi.com/?s=${query}&plot=full&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&page=${pageNum}`
+        const response = await fetch(
           `https://www.omdbapi.com/?s=${query}&plot=full&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&page=${pageNum}`
         );
+        const data = await response.json();
 
-        if (response.data.Search) {
+        if (data.Search) {
           setMovies((prevMovies) =>
-            pageNum === 1 ? response.data.Search : [...prevMovies, ...response.data.Search]
+            pageNum === 1 ? data.Search : [...prevMovies, ...data.Search]
           );
-          setHasMore(response.data.Search.length > 0);
+          setHasMore(data.Search.length > 0);
         } else {
           setHasMore(false);
         }
@@ -50,7 +48,7 @@ export default function Booking() {
         console.error("Error fetching movies:", error);
       }
 
-      setTimeout(() => setLoading(false), 500); 
+      setTimeout(() => setLoading(false), 500);
     }, 500),
     [hasMore, loading]
   );
@@ -60,11 +58,10 @@ export default function Booking() {
     fetchMovies(searchTerm, 1);
     return () => fetchMovies.cancel();
   }, [searchTerm]);
-  
 
   useEffect(() => {
     if (page > 1) fetchMovies(searchTerm, page);
-  }, [page,searchTerm]);
+  }, [page, searchTerm]);
 
   // Intersection Observer for Infinite Scroll
   useEffect(() => {
@@ -88,14 +85,14 @@ export default function Booking() {
       <Sidebar />
       <div className="flex-grow mt-12 md:mt-0 lg:mt-0 p-6">
         <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-bold">
-  {(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good Morning!";
-    if (hour < 18) return "Good Afternoon!";
-    return "Good Evening!";
-  })()}
-</h1>
+          <h1 className="text-xl font-bold">
+            {(() => {
+              const hour = new Date().getHours();
+              if (hour < 12) return "Good Morning!";
+              if (hour < 18) return "Good Afternoon!";
+              return "Good Evening!";
+            })()}
+          </h1>
         </div>
 
         {/* Search Bar */}
@@ -115,7 +112,7 @@ export default function Booking() {
           {movies.map((movie, index) => (
             <div
               key={movie.imdbID}
-              ref={index === movies.length - 1 ? observerRef : null} 
+              ref={index === movies.length - 1 ? observerRef : null}
               onClick={() =>
                 router.push(
                   `/selection?id=${movie.imdbID}&name=${movie.Title}&poster=${movie.Poster}&year=${movie.Year}`
@@ -126,7 +123,8 @@ export default function Booking() {
               <Image
                 src={movie.Poster}
                 alt={movie.Title}
-                height={100} width={100}
+                height={100}
+                width={100}
                 className="rounded-md h-[12rem] w-[15rem] mb-4"
               />
               <h3 className="text-lg font-bold">{movie.Title}</h3>
