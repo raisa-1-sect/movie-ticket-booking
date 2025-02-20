@@ -87,7 +87,14 @@ export default function Booking() {
       <Sidebar />
       <div className="flex-grow mt-12 md:mt-0 lg:mt-0 p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl font-bold">Good Morning!</h1>
+        <h1 className="text-xl font-bold">
+  {(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning!";
+    if (hour < 18) return "Good Afternoon!";
+    return "Good Evening!";
+  })()}
+</h1>
         </div>
 
         {/* Search Bar */}
