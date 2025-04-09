@@ -1,6 +1,6 @@
 ---
 
-# **Movie Ticket Booking Portal**
+#  Ticket Booking Portal*
 
 This is a web application built using **Next.js**, **React**, and **Tailwind CSS** for a fictional movie ticket booking system. The app allows users to log in, browse movies, book tickets, and view their booking activity. The UI design is based on the provided mockups.
 
@@ -11,18 +11,18 @@ This is a web application built using **Next.js**, **React**, and **Tailwind CSS
 1. **Login Screen**:
    - Users can log in with hardcoded credentials:
      ```
-     Username: naval.ravikant
+     Username: gaston.toutant
      Password: 05111974
      ```
    - Displays an error message for invalid credentials.
 
 2. **Booking Screen**:
-   - Displays a list of movies fetched dynamically from the OMDB API.
-   - Includes a search bar to filter movies in real-time.
-   - Clicking on a movie card navigates to the ticket selection screen.
+   - Displays a list of event fetched dynamically from the OMDB API.
+   - Includes a search bar to filter event in real-time.
+   - Clicking on a event card navigates to the ticket selection screen.
 
 3. **Selection Screen**:
-   - Allows users to select ticket count, show time, and date for a movie.
+   - Allows users to select ticket count, show time, and date for a événements.
    - "Book Ticket" button saves the booking details and redirects to the activity screen.
 
 4. **Activity Screen**:
@@ -52,7 +52,7 @@ This is a web application built using **Next.js**, **React**, and **Tailwind CSS
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/your-username/movie-ticket-booking.git
-cd movie-ticket-booking
+cd event-ticket-booking
 ```
 
 ### 2. Install Dependencies
@@ -73,7 +73,7 @@ Start the development server:
 ```bash
 pnpm run dev
 ```
-The app will be available at `http://localhost:3000`.
+The app will be available at `http://localhost:5000`.
 
 ### 5. Build for Production
 To build the app for production:
@@ -93,25 +93,33 @@ The app is deployed on [Vercel](https://vercel.com/) (or Netlify). You can acces
 
 ## **Folder Structure**
 
-```
-movie-ticket-booking/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Root layout for all pages
-│   │   ├── page.tsx            # Login page (default route `/`)
-│   │   ├── booking/
-│   │   │   ├── page.tsx        # Booking page (route `/booking`)
-│   │   ├── selection/
-│   │   │   ├── page.tsx        # Selection page (route `/selection`)
-│   │   ├── activity/
-│   │       ├── page.tsx        # Activity page (route `/activity`)
-│   ├── components/             # Reusable components (Sidebar, ProfileMenu)
-├── public/                     # Static assets like images
-├── styles/                     # Global styles (Tailwind CSS)
-├── package.json                # Project dependencies and scripts
-├── pnpm-lock.yaml              # Lock file for pnpm dependencies
-└── README.md                   # Documentation file (this file)
-```
+ticket_booking/
+├── app/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── event.py
+│   │   └── booking.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── auth_routes.py
+│   │   ├── event_routes.py
+│   │   └── booking_routes.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   └── security.py
+│   ├── templates/
+│   │   └── (fichiers HTML si interface server-side)
+│   └── static/
+│       └── (CSS, JS, images)
+├── migrations/ (si tu utilises Flask-Migrate)
+├── .env
+├── requirements.txt
+├── run.py
+└── README.md
 
 ---
 
@@ -125,7 +133,7 @@ http://www.omdbapi.com/?s=movie&apikey=${NEXT_PUBLIC_OMDB_API_KEY}&page=1
 ```
 
 ### Parameters Used:
-- `s`: Movie title to search for.
+- `s`: Tiket title to search for.
 - `apikey`: Your OMDB API key (stored securely in `.env.local`).
 - `page`: Pagination parameter (default is `1`).
 
